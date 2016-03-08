@@ -105,6 +105,12 @@ func (c *Client) format(name, value string, tags []string, rate float64) string 
 	return buf.String()
 }
 
+func (c *Client) Flush() error {
+	c.Lock()
+	defer c.Unlock()
+	return c.flush()
+}
+
 func (c *Client) watch() {
 	for _ = range time.Tick(c.flushTime) {
 		if c.stop {
